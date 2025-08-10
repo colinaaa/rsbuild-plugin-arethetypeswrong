@@ -7,7 +7,7 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should throw when has false CJS", async () => {
+test("should throw when has false ESM", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -39,7 +39,7 @@ test.skip("should pass when all thrown resolution is disabled", async () => {
         pluginAreTheTypesWrong({
           areTheTypesWrongOptions: {
             ignoreResolutions: [
-              "node16-cjs",
+              "node16-esm",
             ],
           },
         }),
@@ -64,7 +64,7 @@ test.skip("should pass when all thrown resolution is disabled", async () => {
   await close();
 });
 
-test("should be able to ignore rule false-cjs", async () => {
+test("should be able to ignore rule false-esm", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
