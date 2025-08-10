@@ -27,7 +27,7 @@ test("should run arethetypeswrong as expected", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-build-tools-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });
@@ -56,7 +56,7 @@ test("should run arethetypeswrong without emoji", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-build-tools-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });
@@ -86,7 +86,7 @@ test("should run arethetypeswrong without summary", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-build-tools-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });

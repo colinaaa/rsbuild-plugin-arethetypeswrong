@@ -43,9 +43,6 @@ export async function renderTyped(
   });
 
   out(`[arethetypeswrong] ${analysis.packageName} v${analysis.packageVersion}`);
-  if (analysis.types.kind === "@types") {
-    out(`${analysis.types.packageName} v${analysis.types.packageVersion}`);
-  }
   out();
   if (Object.keys(analysis.buildTools).length) {
     out("Build tools:");
@@ -97,7 +94,7 @@ export async function renderTyped(
     return color.bold((hasProblems ? color.redBright : color.greenBright)(entrypointNames[i]));
   });
 
-  const getCellContents = memo((subpath: string, resolutionKind: core.ResolutionKind) => {
+  const getCellContents = (subpath: string, resolutionKind: core.ResolutionKind) => {
     const ignoredPrefix = ignoreResolutions.includes(resolutionKind) ? "(ignored) " : "";
     const problemsForCell = groupProblemsByKind(
       filterProblems(problems, analysis, { entrypoint: subpath, resolutionKind }),
@@ -123,16 +120,14 @@ export async function renderTyped(
             ?.detectedKind || ""
         ];
     return ignoredPrefix + (resolution?.isJson ? jsonResult : moduleResult);
-  });
+  };
 
   const table = new Table({
     head: ["", ...entrypointHeaders],
   });
-  if (table) {
-    resolutions.forEach((kind) => {
-      table.push([resolutionKinds[kind], ...entrypoints.map((entrypoint) => getCellContents(entrypoint, kind))]);
-    });
-  }
+  resolutions.forEach((kind) => {
+    table.push([resolutionKinds[kind], ...entrypoints.map((entrypoint) => getCellContents(entrypoint, kind))]);
+  });
   out(table.toString());
 
   return output.trimEnd();
@@ -140,18 +135,4 @@ export async function renderTyped(
   function out(s: string = "") {
     output += s + "\n";
   }
-}
-
-function memo<Args extends (string | number)[], Result>(fn: (...args: Args) => Result): (...args: Args) => Result {
-  const cache = new Map<string, Result>();
-  return (...args) => {
-    const key = "" + args.join("-");
-    if (cache.has(key)) {
-      return cache.get(key)!;
-    }
-
-    const result = fn(...args);
-    cache.set(key, result);
-    return result;
-  };
 }
