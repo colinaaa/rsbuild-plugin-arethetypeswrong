@@ -1,8 +1,7 @@
 {
   "name": "test-basic",
   "version": "0.0.0",
-   "version": "0.0.0",
-   "private": true,
+  "private": true,
   "types": "./src/index.d.ts",
   "files": [
     "src/*"
