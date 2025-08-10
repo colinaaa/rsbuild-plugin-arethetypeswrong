@@ -61,10 +61,14 @@ export const pluginAreTheTypesWrong = (
 
         const { getExitCode } = await import("./getExitCode.js");
 
-        const shouldThrow = getExitCode(result, options.areTheTypesWrongOptions) !== 0;
-        if (shouldThrow && !isWatch) {
+        const exitCode = getExitCode(result, options.areTheTypesWrongOptions);
+        const hasErrors = exitCode !== 0;
+        if (hasErrors) {
           logger.error(message);
-          throw new Error("arethetypeswrong failed!");
+          if (!isWatch) {
+            throw new Error("arethetypeswrong failed!");
+          }
+          return;
         }
         logger.success(message);
       },
