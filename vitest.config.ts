@@ -24,5 +24,7 @@ export default defineConfig({
         statements: 93.49,
       },
     },
+
+    silent: "passed-only",
   },
 });
