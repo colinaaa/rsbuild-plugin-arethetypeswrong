@@ -1,5 +1,5 @@
-import { describe, expect, test } from '@rstest/core'
+import { describe, expect, test } from "@rstest/core";
 
-describe('Config', () => {
-  test('default', () => {})
-})
+describe("Config", () => {
+  test("default", () => {});
+});

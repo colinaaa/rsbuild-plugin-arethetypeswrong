@@ -1,4 +1,4 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin } from "@rsbuild/core";
 
 export type PluginAreTheTypesWrongOptions = {
   foo?: string;
@@ -8,9 +8,9 @@ export type PluginAreTheTypesWrongOptions = {
 export const pluginAreTheTypesWrong = (
   options: PluginAreTheTypesWrongOptions = {},
 ): RsbuildPlugin => ({
-  name: 'plugin-arethetypeswrong',
+  name: "plugin-arethetypeswrong",
 
   setup() {
-    console.log('Hello Rsbuild!', options);
+    console.log("Hello Rsbuild!", options);
   },
 });
