@@ -1,0 +1,8 @@
+{
+  "name": "test-basic",
+  "version": "0.0.0",
+  "types": "./src/index.d.ts",
+  "files": [
+    "src/*"
+  ]
+}

@@ -5,6 +5,7 @@
 
 # Dist
 node_modules
+coverage/
 dist/
 test-results
 

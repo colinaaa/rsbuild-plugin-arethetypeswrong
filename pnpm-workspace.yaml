@@ -7,8 +7,11 @@ enablePrePostScripts: false
 
 ignorePatchFailures: false
 
-onlyBuiltDependencies:
+ignoredBuiltDependencies:
   - core-js
+  - esbuild
+
+onlyBuiltDependencies:
   - dprint
 
 optimisticRepeatInstall: true

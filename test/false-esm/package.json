@@ -1,0 +1,15 @@
+{
+  "name": "test-false-esm",
+  "type": "module",
+  "version": "0.0.0",
+  "main": "./src/index.cjs",
+  "types": "./src/index.d.ts",
+  "exports": {
+    "types": "./src/index.d.ts",
+    "import": "./src/index.mjs",
+    "require": "./src/index.cjs"
+  },
+  "files": [
+    "src/*"
+  ]
+}
