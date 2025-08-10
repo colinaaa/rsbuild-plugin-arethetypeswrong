@@ -1,0 +1,38 @@
+{
+  "name": "test-exports",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./foo": {
+      "types": {
+        "import": "./src/foo.d.ts",
+        "require": "./src/foo.d.cts"
+      },
+      "import": "./src/foo.js",
+      "require": "./src/foo.cjs"
+    },
+    "./bar": {
+      "types": {
+        "import": "./src/bar.d.ts",
+        "require": "./src/bar.d.cts"
+      },
+      "import": "./src/bar.js",
+      "require": "./src/bar.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "foo": [
+        "./src/foo.d.ts"
+      ],
+      "bar": [
+        "./src/bar.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "src/*"
+  ]
+}

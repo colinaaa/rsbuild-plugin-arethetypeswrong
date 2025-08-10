@@ -7,17 +7,11 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should throw when CJS resolves to ESM", async () => {
+test("should throw when missing export =", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
-      plugins: [
-        pluginAreTheTypesWrong({
-          areTheTypesWrongOptions: {
-            emoji: false,
-          },
-        }),
-      ],
+      plugins: [pluginAreTheTypesWrong()],
     },
   });
 
@@ -33,18 +27,19 @@ test("should throw when CJS resolves to ESM", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-missing-export-equals-0.0.0.tgz"))).toBeFalsy();
 });
 
-test("should be able to ignore rule cjs-resolves-to-esm", async () => {
+test.skip("should be able to ignore resolution node16-*", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
       plugins: [
         pluginAreTheTypesWrong({
           areTheTypesWrongOptions: {
-            ignoreRules: [
-              "cjs-resolves-to-esm",
+            ignoreResolutions: [
+              "node16-cjs",
+              "node16-esm",
             ],
           },
         }),
@@ -64,7 +59,40 @@ test("should be able to ignore rule cjs-resolves-to-esm", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-missing-export-equals-0.0.0.tgz"))).toBeFalsy();
+
+  await close();
+});
+
+test("should be able to ignore rule missing-export-equals", async () => {
+  const rsbuild = await createRsbuild({
+    cwd: import.meta.dirname,
+    rsbuildConfig: {
+      plugins: [
+        pluginAreTheTypesWrong({
+          areTheTypesWrongOptions: {
+            ignoreRules: [
+              "missing-export-equals",
+            ],
+          },
+        }),
+      ],
+    },
+  });
+
+  const success = vi.spyOn(logger, "success");
+
+  const { close } = await rsbuild.build();
+
+  expect(
+    success.mock.calls.flatMap(call =>
+      call
+        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
+        .map(stripVTControlCharacters)
+    ),
+  ).toMatchSnapshot();
+
+  expect(existsSync(path.join(import.meta.dirname, "test-missing-export-equals-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });
@@ -87,5 +115,7 @@ test("should not throw when enable: false", async () => {
 
   expect(success).not.toBeCalled();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-missing-export-equals-0.0.0.tgz"))).toBeFalsy();
+
+  await close();
 });

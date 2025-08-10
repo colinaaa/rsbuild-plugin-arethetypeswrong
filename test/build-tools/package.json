@@ -1,0 +1,14 @@
+{
+  "name": "test-build-tools",
+  "version": "0.0.0",
+  "private": true,
+  "types": "./src/index.d.ts",
+  "files": [
+    "src/*"
+  ],
+  "devDependencies": {
+    "@rspack/cli": "*",
+    "typescript": "*",
+    "webpack": "*"
+  }
+}
