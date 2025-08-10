@@ -2,6 +2,8 @@
   "name": "test-false-esm",
   "type": "module",
   "version": "0.0.0",
+  "private": true,
+  "private": true,
   "main": "./src/index.cjs",
   "types": "./src/index.d.ts",
   "exports": {

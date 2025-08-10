@@ -2,6 +2,7 @@
   "name": "test-untyped-resolution",
   "type": "module",
   "version": "0.0.0",
+  "private": true,
   "main": "./src/index.cjs",
   "types": "./src/index.d.ts",
   "exports": {
