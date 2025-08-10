@@ -47,7 +47,7 @@ export const pluginAreTheTypesWrong = (
         console.info();
 
         logger.debug(`[arethetypeswrong] Running npm pack from ${rootPath}`);
-        const { createTarball } = await import("./create-tarball.js");
+        const { createTarball } = await import("./createTarball.js");
         await using tarball = await createTarball(rootPath, packageJson);
         logger.debug(`[arethetypeswrong] npm pack success`);
 

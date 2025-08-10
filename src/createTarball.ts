@@ -16,7 +16,11 @@ export async function createTarball(
 
   const agent = await detect({ cwd: root, stopDir: root }) ?? { name: "npm" };
 
-  await x(agent.name, ["pack"]);
+  await x(agent.name, ["pack"], {
+    nodeOptions: {
+      cwd: root,
+    },
+  });
 
   return {
     path: tarballPath,
