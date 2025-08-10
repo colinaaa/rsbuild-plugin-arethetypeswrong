@@ -14,6 +14,7 @@
       },
     },
     "rules": {
+      "@typescript-eslint/no-unsafe-type-assertion": "warn",
     },
     "plugins": ["@typescript-eslint"],
   },
