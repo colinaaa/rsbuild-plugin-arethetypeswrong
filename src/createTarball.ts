@@ -12,11 +12,32 @@ export async function createTarball(
   root: string,
   pkg: { name: string; version: string },
 ): Promise<Result> {
-  const tarballPath = path.join(root, `${pkg.name}-${pkg.version}.tgz`);
+  const tarballPath = path.join(
+    root,
+    `${normalizeNpmPackageName(pkg.name)}-${pkg.version}.tgz`,
+  );
 
-  const agent = await detect({ cwd: root, stopDir: root }) ?? { name: "npm" };
+  const { agent } = await detect({ cwd: root, stopDir: root }) ?? { agent: "npm" };
 
-  await x(agent.name, ["pack"], {
+  const [command, args] = (function(): [string, string[]] {
+    switch (agent) {
+      case "yarn":
+        // https://classic.yarnpkg.com/lang/en/docs/cli/pack/
+        return [agent, ["pack", "--filename", tarballPath]];
+      case "yarn@berry":
+        // https://yarnpkg.com/cli/pack
+        return ["yarn", ["pack", "--out", tarballPath]];
+      case "npm":
+      case "bun":
+      case "deno":
+        return ["npm", ["pack"]];
+      case "pnpm":
+      case "pnpm@6":
+        return ["pnpm", ["pack"]];
+    }
+  })();
+
+  await x(command, args, {
     nodeOptions: {
       cwd: root,
     },
@@ -28,4 +49,8 @@ export async function createTarball(
       return fs.unlink(tarballPath);
     },
   };
+}
+
+function normalizeNpmPackageName(name: string): string {
+  return name.replaceAll("@", "").replaceAll("/", "-");
 }
