@@ -7,48 +7,11 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should throw when CJS resolves to ESM", async () => {
+test("should run arethetypeswrong as expected", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
-      plugins: [
-        pluginAreTheTypesWrong({
-          areTheTypesWrongOptions: {
-            emoji: false,
-          },
-        }),
-      ],
-    },
-  });
-
-  const error = vi.spyOn(logger, "error");
-
-  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
-
-  expect(
-    error.mock.calls.flatMap(call =>
-      call
-        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
-        .map(stripVTControlCharacters)
-    ),
-  ).toMatchSnapshot();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
-});
-
-test("should be able to ignore rule cjs-resolves-to-esm", async () => {
-  const rsbuild = await createRsbuild({
-    cwd: import.meta.dirname,
-    rsbuildConfig: {
-      plugins: [
-        pluginAreTheTypesWrong({
-          areTheTypesWrongOptions: {
-            ignoreRules: [
-              "cjs-resolves-to-esm",
-            ],
-          },
-        }),
-      ],
+      plugins: [pluginAreTheTypesWrong()],
     },
   });
 
@@ -64,20 +27,20 @@ test("should be able to ignore rule cjs-resolves-to-esm", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-wildcard-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });
 
-test("should not throw when enable: false", async () => {
+test("should run arethetypeswrong without emoji", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
-      plugins: [
-        pluginAreTheTypesWrong({
-          enable: false,
-        }),
-      ],
+      plugins: [pluginAreTheTypesWrong({
+        areTheTypesWrongOptions: {
+          emoji: false,
+        },
+      })],
     },
   });
 
@@ -85,7 +48,45 @@ test("should not throw when enable: false", async () => {
 
   const { close } = await rsbuild.build();
 
-  expect(success).not.toBeCalled();
+  expect(
+    success.mock.calls.flatMap(call =>
+      call
+        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
+        .map(stripVTControlCharacters)
+    ),
+  ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-wildcard-0.0.0.tgz"))).toBeFalsy();
+
+  await close();
+});
+
+test("should run arethetypeswrong without summary", async () => {
+  const rsbuild = await createRsbuild({
+    cwd: import.meta.dirname,
+    rsbuildConfig: {
+      plugins: [pluginAreTheTypesWrong({
+        areTheTypesWrongOptions: {
+          emoji: false,
+          summary: false,
+        },
+      })],
+    },
+  });
+
+  const success = vi.spyOn(logger, "success");
+
+  const { close } = await rsbuild.build();
+
+  expect(
+    success.mock.calls.flatMap(call =>
+      call
+        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
+        .map(stripVTControlCharacters)
+    ),
+  ).toMatchSnapshot();
+
+  expect(existsSync(path.join(import.meta.dirname, "test-wildcard-0.0.0.tgz"))).toBeFalsy();
+
+  await close();
 });

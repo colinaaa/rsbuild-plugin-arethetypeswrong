@@ -1,0 +1,26 @@
+{
+  "name": "test-wildcard",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./*": {
+      "types": {
+        "import": "./src/foo.d.ts",
+        "require": "./src/foo.d.cts"
+      },
+      "import": "./src/foo.js",
+      "require": "./src/foo.cjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "foo": [
+        "./src/foo.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "src/*"
+  ]
+}

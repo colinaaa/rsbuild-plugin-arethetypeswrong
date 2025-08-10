@@ -1,0 +1,17 @@
+{
+  "name": "test-internal-resolution-error",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./src/index.d.ts",
+        "require": "./src/index.d.cts"
+      },
+      "import": "./src/index.js"
+    }
+  }
+}
