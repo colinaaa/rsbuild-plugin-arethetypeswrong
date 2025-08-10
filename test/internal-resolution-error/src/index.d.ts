@@ -1,3 +1,3 @@
-import {} from './types'
+import {} from "./types";
 
-export default function(): number
+export default function(): number;

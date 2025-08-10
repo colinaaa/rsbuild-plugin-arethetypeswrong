@@ -1,1 +1,1 @@
-export function foo(): number
+export function foo(): number;

@@ -1,2 +1,1 @@
-import {} from './types'
-
+import {} from "./types";

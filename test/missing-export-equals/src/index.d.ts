@@ -1,1 +1,1 @@
-export default function(): number
+export default function(): number;

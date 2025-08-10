@@ -18,10 +18,10 @@ export default defineConfig({
       provider: "v8",
       thresholds: {
         autoUpdate: true,
-        lines: 93.49,
-        functions: 96.77,
-        branches: 88.17,
-        statements: 93.84,
+        lines: 96.74,
+        functions: 100,
+        branches: 94.62,
+        statements: 96.92,
       },
     },
 
