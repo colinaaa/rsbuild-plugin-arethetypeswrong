@@ -12,7 +12,10 @@ export async function createTarball(
   root: string,
   pkg: { name: string; version: string },
 ): Promise<Result> {
-  const tarballPath = path.join(root, `${pkg.name}-${pkg.version}.tgz`);
+  const tarballPath = path.join(
+    root,
+    `${normalizeNpmPackageName(pkg.name)}-${pkg.version}.tgz`,
+  );
 
   const agent = await detect({ cwd: root, stopDir: root }) ?? { name: "npm" };
 
@@ -28,4 +31,8 @@ export async function createTarball(
       return fs.unlink(tarballPath);
     },
   };
+}
+
+function normalizeNpmPackageName(name: string): string {
+  return name.replaceAll("@", "").replaceAll("/", "-");
 }
