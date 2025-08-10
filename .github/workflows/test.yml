@@ -35,6 +35,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
       - name: Format check
         uses: dprint/check@v2.3
 
@@ -65,6 +68,9 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+
+      - name: Build
+        run: pnpm build
 
       - name: Run Test
         run: pnpm run test
