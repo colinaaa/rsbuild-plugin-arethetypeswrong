@@ -1,11 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { checkPackage, createPackageFromTarballData } from "@arethetypeswrong/core";
 import type { RsbuildPlugin } from "@rsbuild/core";
 
-import { createTarball } from "./create-tarball.js";
-import { render } from "./render/index.js";
 import type { RenderOptions } from "./render/index.js";
 
 export interface PluginAreTheTypesWrongOptions {
@@ -45,11 +42,15 @@ export const pluginAreTheTypesWrong = (
         console.info();
 
         logger.debug(`[arethetypeswrong] Running npm pack from ${rootPath}`);
+        const { createTarball } = await import("./create-tarball.js");
         await using tarball = await createTarball(rootPath, packageJson);
         logger.debug(`[arethetypeswrong] npm pack success`);
 
+        const { checkPackage, createPackageFromTarballData } = await import("@arethetypeswrong/core");
         const pkg = createPackageFromTarballData(fs.readFileSync(tarball.path));
         const result = await checkPackage(pkg);
+
+        const { render } = await import("./render/index.js");
 
         const message = await render(result, options.areTheTypesWrongOptions ?? {});
         logger.success(message);
