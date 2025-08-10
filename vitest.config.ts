@@ -7,7 +7,6 @@ export default defineConfig({
         ".rslib/**",
         "./dist/**",
         "./test/**",
-        "./playground/**",
 
         "./rslib.config.ts",
         "./vitest.config.ts",
