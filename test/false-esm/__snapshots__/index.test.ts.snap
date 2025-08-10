@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should be able to ignore rule false-cjs 1`] = `
+exports[`should be able to ignore rule false-esm 1`] = `
 [
   "[arethetypeswrong] test-false-esm v0.0.0
 
@@ -21,7 +21,7 @@ exports[`should be able to ignore rule false-cjs 1`] = `
 ]
 `;
 
-exports[`should throw when has false CJS 2`] = `
+exports[`should throw when has false ESM 2`] = `
 [
   "[arethetypeswrong] test-false-esm v0.0.0
 
