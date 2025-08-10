@@ -12,6 +12,8 @@ Rsbuild plugin for checking TypeScript type definitions with [arethetypeswrong](
 
 `rsbuild-plugin-arethetypeswrong` is the perfect partner for [Rslib](https://github.com/web-infra-dev/rslib). When building a library, arethetypeswrong helps you to analyze TypeScript types of the package to improve its compatibility with different module resolutions.
 
+<img width="1000" height="761" alt="image" src="https://github.com/user-attachments/assets/cce68a0d-baac-45c5-8b59-9e7999932e1c" />
+
 ## Usage
 
 Install:
