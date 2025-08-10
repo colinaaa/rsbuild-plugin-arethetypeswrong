@@ -8,11 +8,4 @@ export default defineConfig({
   plugins: [
     pluginPublint(),
   ],
-  tools: {
-    rspack: {
-      optimization: {
-        chunkIds: "named",
-      },
-    },
-  },
 });
