@@ -30,6 +30,7 @@ export const pluginAreTheTypesWrong = (
     api.onAfterBuild({
       handler: async ({ isFirstCompile, isWatch }) => {
         // Only run on the first compile in watch mode, or on a single build
+        /* node:coverage ignore if -- @preserve */
         if (!isFirstCompile) {
           return;
         }
@@ -65,9 +66,11 @@ export const pluginAreTheTypesWrong = (
         const hasErrors = exitCode !== 0;
         if (hasErrors) {
           logger.error(message);
+          /* node:coverage ignore next -- @preserve */
           if (!isWatch) {
             throw new Error("arethetypeswrong failed!");
           }
+          /* node:coverage ignore next -- @preserve */
           return;
         }
         logger.success(message);
