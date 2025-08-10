@@ -60,7 +60,7 @@ test("should be able to ignore rule false-export-default", async () => {
   ).toMatchSnapshot();
 
   expect(
-    existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))
+    existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz")),
   ).toBeFalsy();
 
   await close();
@@ -86,8 +86,8 @@ test("should not throw when enable: false", async () => {
 
   expect(
     existsSync(
-      path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz")
-    )
+      path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"),
+    ),
   ).toBeFalsy();
 
   await close();
