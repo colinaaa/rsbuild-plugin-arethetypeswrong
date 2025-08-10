@@ -1,0 +1,11 @@
+{
+  "name": "test-fallback-condition",
+  "version": "0.0.0",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    "import": "./src/index.mjs",
+    "default": "./src/index.js"
+  }
+}

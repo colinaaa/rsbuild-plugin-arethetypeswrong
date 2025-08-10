@@ -7,7 +7,7 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should run arethetypeswrong as expected", async () => {
+test("should throw when false export default", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -15,32 +15,35 @@ test("should run arethetypeswrong as expected", async () => {
     },
   });
 
-  const success = vi.spyOn(logger, "success");
+  const error = vi.spyOn(logger, "error");
 
-  const { close } = await rsbuild.build();
+  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
 
   expect(
-    success.mock.calls.flatMap(call =>
+    error.mock.calls.flatMap(call =>
       call
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))).toBeFalsy();
 
-  await close();
 });
 
-test("should run arethetypeswrong without emoji", async () => {
+test("should be able to ignore rule false-export-default", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
-      plugins: [pluginAreTheTypesWrong({
-        areTheTypesWrongOptions: {
-          emoji: false,
-        },
-      })],
+      plugins: [
+        pluginAreTheTypesWrong({
+          areTheTypesWrongOptions: {
+            ignoreRules: [
+              "false-export-default",
+            ],
+          },
+        }),
+      ],
     },
   });
 
@@ -56,21 +59,19 @@ test("should run arethetypeswrong without emoji", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))).toBeFalsy();
 
-  await close();
 });
 
-test("should run arethetypeswrong without summary", async () => {
+test("should not throw when enable: false", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
-      plugins: [pluginAreTheTypesWrong({
-        areTheTypesWrongOptions: {
-          emoji: false,
-          summary: false,
-        },
-      })],
+      plugins: [
+        pluginAreTheTypesWrong({
+          enable: false,
+        }),
+      ],
     },
   });
 
@@ -78,15 +79,8 @@ test("should run arethetypeswrong without summary", async () => {
 
   const { close } = await rsbuild.build();
 
-  expect(
-    success.mock.calls.flatMap(call =>
-      call
-        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
-        .map(stripVTControlCharacters)
-    ),
-  ).toMatchSnapshot();
+  expect(success).not.toBeCalled();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-basic-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))).toBeFalsy();
 
-  await close();
 });

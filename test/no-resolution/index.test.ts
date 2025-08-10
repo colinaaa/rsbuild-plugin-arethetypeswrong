@@ -17,7 +17,7 @@ test("should throw when cannot resolve types", async () => {
 
   const error = vi.spyOn(logger, "error");
 
-  await expect(() => rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
+  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
 
   expect(
     error.mock.calls.flatMap(call =>
@@ -25,26 +25,7 @@ test("should throw when cannot resolve types", async () => {
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
-  ).toMatchInlineSnapshot(`
-    [
-      "[arethetypeswrong] test-no-resolution v0.0.0
-
-    💀 Import failed to resolve to type declarations or JavaScript files. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/NoResolution.md
-
-
-    ┌───────────────────┬──────────────────────┐
-    │                   │ "test-no-resolution" │
-    ├───────────────────┼──────────────────────┤
-    │ node10            │ 💀 Resolution failed │
-    ├───────────────────┼──────────────────────┤
-    │ node16 (from CJS) │ 💀 Resolution failed │
-    ├───────────────────┼──────────────────────┤
-    │ node16 (from ESM) │ 💀 Resolution failed │
-    ├───────────────────┼──────────────────────┤
-    │ bundler           │ 💀 Resolution failed │
-    └───────────────────┴──────────────────────┘",
-    ]
-  `);
+  ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-no-resolution-0.0.0.tgz"))).toBeFalsy();
 });
@@ -68,7 +49,7 @@ test("should be able to ignore resolution", async () => {
 
   const error = vi.spyOn(logger, "error");
 
-  await expect(() => rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
+  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
 
   expect(
     error.mock.calls.flatMap(call =>
@@ -76,28 +57,7 @@ test("should be able to ignore resolution", async () => {
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
-  ).toMatchInlineSnapshot(`
-    [
-      "[arethetypeswrong] test-no-resolution v0.0.0
-
-     (ignoring resolutions: 'node16-cjs', 'node16-esm')
-
-    💀 Import failed to resolve to type declarations or JavaScript files. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/NoResolution.md
-
-
-    ┌───────────────────┬────────────────────────────────┐
-    │                   │ "test-no-resolution"           │
-    ├───────────────────┼────────────────────────────────┤
-    │ node10            │ 💀 Resolution failed           │
-    ├───────────────────┼────────────────────────────────┤
-    │ bundler           │ 💀 Resolution failed           │
-    ├───────────────────┼────────────────────────────────┤
-    │ node16 (from CJS) │ (ignored) 💀 Resolution failed │
-    ├───────────────────┼────────────────────────────────┤
-    │ node16 (from ESM) │ (ignored) 💀 Resolution failed │
-    └───────────────────┴────────────────────────────────┘",
-    ]
-  `);
+  ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-no-resolution-0.0.0.tgz"))).toBeFalsy();
 });
@@ -128,26 +88,7 @@ test("should not throw when no-resolution is ignored", async () => {
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
-  ).toMatchInlineSnapshot(`
-    [
-      "[arethetypeswrong] test-no-resolution v0.0.0
-
-     (ignoring rules: 'no-resolution')
-
-     No problems found 🌟
-    ┌───────────────────┬──────────────────────┐
-    │                   │ "test-no-resolution" │
-    ├───────────────────┼──────────────────────┤
-    │ node10            │ 🟢                   │
-    ├───────────────────┼──────────────────────┤
-    │ node16 (from CJS) │ 🟢                   │
-    ├───────────────────┼──────────────────────┤
-    │ node16 (from ESM) │ 🟢                   │
-    ├───────────────────┼──────────────────────┤
-    │ bundler           │ 🟢                   │
-    └───────────────────┴──────────────────────┘",
-    ]
-  `);
+  ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-no-resolution-0.0.0.tgz"))).toBeFalsy();
 

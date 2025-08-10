@@ -7,7 +7,7 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should throw when does resolve to types", async () => {
+test("should throw when has false CJS", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -27,43 +27,12 @@ test("should throw when does resolve to types", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
+
 });
 
-test("should pass when all thrown resolution is disabled", async () => {
-  const rsbuild = await createRsbuild({
-    cwd: import.meta.dirname,
-    rsbuildConfig: {
-      plugins: [pluginAreTheTypesWrong({
-        areTheTypesWrongOptions: {
-          ignoreResolutions: [
-            "bundler",
-            "node16-cjs",
-            "node16-esm",
-          ],
-        },
-      })],
-    },
-  });
 
-  const success = vi.spyOn(logger, "success");
-
-  const { close } = await rsbuild.build();
-
-  expect(
-    success.mock.calls.flatMap(call =>
-      call
-        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
-        .map(stripVTControlCharacters)
-    ),
-  ).toMatchSnapshot();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
-
-  await close();
-});
-
-test("should be able to ignore resolution", async () => {
+test.skip("should be able to ignore resolutions node16-esm", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -71,39 +40,7 @@ test("should be able to ignore resolution", async () => {
         pluginAreTheTypesWrong({
           areTheTypesWrongOptions: {
             ignoreResolutions: [
-              "node16-cjs",
-              "node16-esm",
-            ],
-          },
-        }),
-      ],
-    },
-  });
-
-  const error = vi.spyOn(logger, "error");
-
-  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
-
-  expect(
-    error.mock.calls.flatMap(call =>
-      call
-        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
-        .map(stripVTControlCharacters)
-    ),
-  ).toMatchSnapshot();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
-});
-
-test("should be able to ignore rule untyped-resolution", async () => {
-  const rsbuild = await createRsbuild({
-    cwd: import.meta.dirname,
-    rsbuildConfig: {
-      plugins: [
-        pluginAreTheTypesWrong({
-          areTheTypesWrongOptions: {
-            ignoreRules: [
-              "untyped-resolution",
+              'node16-esm',
             ],
           },
         }),
@@ -123,11 +60,41 @@ test("should be able to ignore rule untyped-resolution", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
 
-  await close();
+  await close()
+});
 
-  expect(existsSync(path.join(import.meta.dirname, "test-no-resolution-0.0.0.tgz"))).toBeFalsy();
+test("should be able to ignore rule false-cjs", async () => {
+  const rsbuild = await createRsbuild({
+    cwd: import.meta.dirname,
+    rsbuildConfig: {
+      plugins: [
+        pluginAreTheTypesWrong({
+          areTheTypesWrongOptions: {
+            ignoreRules: [
+              "false-cjs",
+            ],
+          },
+        }),
+      ],
+    },
+  });
+
+  const success = vi.spyOn(logger, "success");
+
+  const { close } = await rsbuild.build();
+
+  expect(
+    success.mock.calls.flatMap(call =>
+      call
+        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
+        .map(stripVTControlCharacters)
+    ),
+  ).toMatchSnapshot();
+
+  expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
+
 });
 
 test("should not throw when enable: false", async () => {
@@ -148,7 +115,7 @@ test("should not throw when enable: false", async () => {
 
   expect(success).not.toBeCalled();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });

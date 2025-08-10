@@ -17,7 +17,7 @@ test("should throw when does not contain types", async () => {
 
   const error = vi.spyOn(logger, "error");
 
-  await expect(() => rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
+  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
 
   expect(
     error.mock.calls.flatMap(call =>
@@ -25,11 +25,7 @@ test("should throw when does not contain types", async () => {
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
-  ).toMatchInlineSnapshot(`
-    [
-      "[arethetypeswrong] Package test-untyped@0.0.0 does not contain types.",
-    ]
-  `);
+  ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-untyped-0.0.0.tgz"))).toBeFalsy();
 });

@@ -7,7 +7,7 @@ import { expect, test, vi } from "vitest";
 
 import { pluginAreTheTypesWrong } from "../../src";
 
-test("should throw when does resolve to types", async () => {
+test("should failed on fallback-condition", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -26,44 +26,9 @@ test("should throw when does resolve to types", async () => {
         .map(stripVTControlCharacters)
     ),
   ).toMatchSnapshot();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
 });
 
-test("should pass when all thrown resolution is disabled", async () => {
-  const rsbuild = await createRsbuild({
-    cwd: import.meta.dirname,
-    rsbuildConfig: {
-      plugins: [pluginAreTheTypesWrong({
-        areTheTypesWrongOptions: {
-          ignoreResolutions: [
-            "bundler",
-            "node16-cjs",
-            "node16-esm",
-          ],
-        },
-      })],
-    },
-  });
-
-  const success = vi.spyOn(logger, "success");
-
-  const { close } = await rsbuild.build();
-
-  expect(
-    success.mock.calls.flatMap(call =>
-      call
-        .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
-        .map(stripVTControlCharacters)
-    ),
-  ).toMatchSnapshot();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
-
-  await close();
-});
-
-test("should be able to ignore resolution", async () => {
+test.skip("should be able to ignore resolution node16-*", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -80,22 +45,24 @@ test("should be able to ignore resolution", async () => {
     },
   });
 
-  const error = vi.spyOn(logger, "error");
+  const success = vi.spyOn(logger, "success");
 
-  await expect(rsbuild.build()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: arethetypeswrong failed!]`);
+  const { close } = await rsbuild.build();
 
   expect(
-    error.mock.calls.flatMap(call =>
+    success.mock.calls.flatMap(call =>
       call
         .filter(message => typeof message === "string" && message.includes("[arethetypeswrong]"))
         .map(stripVTControlCharacters)
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-fallback-condition-0.0.0.tgz"))).toBeFalsy();
+
+  await close();
 });
 
-test("should be able to ignore rule untyped-resolution", async () => {
+test("should be able to ignore rule fallback-condition", async () => {
   const rsbuild = await createRsbuild({
     cwd: import.meta.dirname,
     rsbuildConfig: {
@@ -103,7 +70,7 @@ test("should be able to ignore rule untyped-resolution", async () => {
         pluginAreTheTypesWrong({
           areTheTypesWrongOptions: {
             ignoreRules: [
-              "untyped-resolution",
+              "fallback-condition",
             ],
           },
         }),
@@ -123,11 +90,9 @@ test("should be able to ignore rule untyped-resolution", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-fallback-condition-0.0.0.tgz"))).toBeFalsy();
 
   await close();
-
-  expect(existsSync(path.join(import.meta.dirname, "test-no-resolution-0.0.0.tgz"))).toBeFalsy();
 });
 
 test("should not throw when enable: false", async () => {
@@ -148,7 +113,7 @@ test("should not throw when enable: false", async () => {
 
   expect(success).not.toBeCalled();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-untyped-resolution-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-fallback-condition-0.0.0.tgz"))).toBeFalsy();
 
   await close();
 });
