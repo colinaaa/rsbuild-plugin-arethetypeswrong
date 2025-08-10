@@ -25,7 +25,7 @@
     "test": "vitest --coverage"
   },
   "nano-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs,md,json,jsonc}": [
+    "*.{js,jsx,ts,tsx,mjs,cjs,md,json,jsonc,yml,yaml}": [
       "dprint fmt --allow-no-files --"
     ],
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
