@@ -84,5 +84,11 @@ test("should not throw when enable: false", async () => {
 
   expect(success).not.toBeCalled();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))).toBeFalsy();
+  expect(
+    existsSync(
+      path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz")
+    )
+  ).toBeFalsy();
+
+  await close();
 });
