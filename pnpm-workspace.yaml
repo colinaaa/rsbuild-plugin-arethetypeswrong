@@ -1,6 +1,21 @@
 packages:
   - playground
 
+enableGlobalVirtualStore: true
+
+enablePrePostScripts: false
+
+ignorePatchFailures: false
+
 onlyBuiltDependencies:
   - core-js
+  - dprint
   - simple-git-hooks
+
+optimisticRepeatInstall: true
+
+resolutionMode: lowest-direct
+
+strictDepBuilds: true
+
+verifyDepsBeforeRun: install

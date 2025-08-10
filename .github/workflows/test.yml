@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 # Controls when the action will run.
 on:
@@ -15,16 +15,13 @@ permissions:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  lint:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install Pnpm
         run: npm i -g corepack@latest --force && corepack enable
@@ -36,7 +33,38 @@ jobs:
           cache: "pnpm"
 
       - name: Install Dependencies
-        run: pnpm install && npx playwright install chromium
+        run: pnpm install
+
+      - name: Format check
+        uses: dprint/check@v2.3
+
+      - name: Run Lint
+        run: pnpm run lint
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Pnpm
+        run: npm i -g corepack@latest --force && corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Run Test
         run: pnpm run test
