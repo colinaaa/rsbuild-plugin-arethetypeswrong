@@ -1,5 +1,5 @@
 // CommonJS module
 module.exports = {
-  hello: 'world',
-  version: '1.0.0'
+  hello: "world",
+  version: "1.0.0",
 };

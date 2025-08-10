@@ -116,5 +116,5 @@ test("should not throw when enable: false", async () => {
 
   expect(existsSync(path.join(import.meta.dirname, "test-named-exports-0.0.0.tgz"))).toBeFalsy();
 
-  await close()
+  await close();
 });

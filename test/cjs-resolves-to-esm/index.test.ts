@@ -82,5 +82,4 @@ test("should not throw when enable: false", async () => {
   expect(success).not.toBeCalled();
 
   expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
-
 });

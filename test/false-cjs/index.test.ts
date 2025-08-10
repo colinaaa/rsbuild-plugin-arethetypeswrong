@@ -28,9 +28,7 @@ test("should throw when has false CJS", async () => {
   ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
-
 });
-
 
 test.skip("should be able to ignore resolutions node16-esm", async () => {
   const rsbuild = await createRsbuild({
@@ -40,7 +38,7 @@ test.skip("should be able to ignore resolutions node16-esm", async () => {
         pluginAreTheTypesWrong({
           areTheTypesWrongOptions: {
             ignoreResolutions: [
-              'node16-esm',
+              "node16-esm",
             ],
           },
         }),
@@ -62,7 +60,7 @@ test.skip("should be able to ignore resolutions node16-esm", async () => {
 
   expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
 
-  await close()
+  await close();
 });
 
 test("should be able to ignore rule false-cjs", async () => {
@@ -94,7 +92,6 @@ test("should be able to ignore rule false-cjs", async () => {
   ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
-
 });
 
 test("should not throw when enable: false", async () => {
