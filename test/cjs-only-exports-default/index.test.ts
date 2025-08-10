@@ -27,7 +27,7 @@ test("should pass when no issues found", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-cjs-resolves-to-esm-0.0.0.tgz"))).toBeFalsy();
+  expect(existsSync(path.join(import.meta.dirname, "test-cjs-only-exports-default-0.0.0.tgz"))).toBeFalsy();
 });
 
 test.skip("should be able to ignore resolution node16-esm and bundler", async () => {

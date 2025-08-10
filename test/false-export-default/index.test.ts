@@ -49,6 +49,7 @@ test("should be able to ignore rule false-export-default", async () => {
   const success = vi.spyOn(logger, "success");
 
   const { close } = await rsbuild.build();
+  expect(success).toBeCalled();
 
   expect(
     success.mock.calls.flatMap(call =>
@@ -58,7 +59,11 @@ test("should be able to ignore rule false-export-default", async () => {
     ),
   ).toMatchSnapshot();
 
-  expect(existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))).toBeFalsy();
+  expect(
+    existsSync(path.join(import.meta.dirname, "test-false-export-default-0.0.0.tgz"))
+  ).toBeFalsy();
+
+  await close();
 });
 
 test("should not throw when enable: false", async () => {

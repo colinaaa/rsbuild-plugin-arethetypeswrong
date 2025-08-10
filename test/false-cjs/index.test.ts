@@ -92,6 +92,7 @@ test("should be able to ignore rule false-cjs", async () => {
   ).toMatchSnapshot();
 
   expect(existsSync(path.join(import.meta.dirname, "test-false-cjs-0.0.0.tgz"))).toBeFalsy();
+  await close();
 });
 
 test("should not throw when enable: false", async () => {
