@@ -12,5 +12,5 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 import type { UntypedResult } from "@arethetypeswrong/core";
 
 export function renderUntyped(analysis: UntypedResult): string {
-  return `Package ${analysis.packageName}@${analysis.packageVersion} does not contain types.`;
+  return `[arethetypeswrong] Package ${analysis.packageName}@${analysis.packageVersion} does not contain types.`;
 }

@@ -1,4 +1,4 @@
-import * as core from "@arethetypeswrong/core";
+import type * as core from "@arethetypeswrong/core";
 import type { ProblemKind } from "@arethetypeswrong/core";
 
 export type ProblemFlag =

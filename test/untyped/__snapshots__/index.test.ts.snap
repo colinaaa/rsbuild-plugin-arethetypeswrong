@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should throw when does not contain types 2`] = `
+[
+  "[arethetypeswrong] Package test-untyped@0.0.0 does not contain types.",
+]
+`;
