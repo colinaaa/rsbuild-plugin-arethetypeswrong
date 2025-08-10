@@ -28,7 +28,12 @@ export const pluginAreTheTypesWrong = (
     const logger = api.logger;
 
     api.onAfterBuild({
-      handler: async () => {
+      handler: async ({ isFirstCompile, isWatch }) => {
+        // Only run on the first compile in watch mode, or on a single build
+        if (!isFirstCompile) {
+          return;
+        }
+
         const { rootPath } = api.context;
 
         // Read package.json to get package name and version
@@ -53,6 +58,14 @@ export const pluginAreTheTypesWrong = (
         const { render } = await import("./render/index.js");
 
         const message = await render(result, options.areTheTypesWrongOptions ?? {});
+
+        const { getExitCode } = await import("./getExitCode.js");
+
+        const shouldThrow = getExitCode(result, options.areTheTypesWrongOptions) !== 0;
+        if (shouldThrow && !isWatch) {
+          logger.error(message);
+          throw new Error("arethetypeswrong failed!");
+        }
         logger.success(message);
       },
       order: "post",
