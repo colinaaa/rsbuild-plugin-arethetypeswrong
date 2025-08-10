@@ -102,6 +102,13 @@ pluginAreTheTypesWrong({
 });
 ```
 
+## Credits
+
+Thanks to:
+
+- [arethetypeswrong](https://github.com/arethetypeswrong/arethetypeswrong.github.io) for making this possible.
+- [rsbuild-plugin-publint](https://github.com/rspack-contrib/rsbuild-plugin-publint) for the idea of linting as an Rsbuild plugin.
+
 ## License
 
 [MIT](./LICENSE).
